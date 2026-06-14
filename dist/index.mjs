@@ -1,33 +1,15 @@
-import { assembleCss, escapeHtml, } from "@561-group/web-theming";
-// The 561 Group visual identity, expressed on the shared web-theming system: a
-// palette as data (so dark/brand variations and the component library compose),
-// plus the chrome unique to this identity (folio bar, the giant "561" hero mark,
-// the inked colophon). Bone ground, ink marks, one warm red and one witness blue
-// — the Bauhaus/Brutalist register: scarce salience, hard hierarchy, type as mass.
+import { decodeTheme, escapeHtml, } from "@561-group/web-theming";
+// The 561 Group visual identity as a thin spec on the shared web-theming system:
+// a handful of colour seeds + type tokens, from which web-theming derives the full
+// light AND dark palettes (OKLCH; WCAG-certified), plus the chrome unique to this
+// identity (folio bar, the giant "561" hero mark, the inked colophon). Bone ground,
+// ink marks, one warm red and one witness blue — the Bauhaus/Brutalist register:
+// scarce salience, hard hierarchy, type as mass.
 //
-// Fonts: Space Grotesk (sans), Roboto Slab (serif/slab), JetBrains Mono (mono)
-// are the bible-specified families. No CDN requests (§ 09.7 no-third-party-on-web);
+// Fonts: Space Grotesk (sans), Roboto Slab (serif/slab), JetBrains Mono (mono) are
+// the bible-specified families. No CDN requests (§ 09.7 no-third-party-on-web);
 // self-hosting these three is recorded in dev/TODO/561-group-web-theme-fonts.md.
 // Until that ships, the fallback stacks below are operative.
-export const fiveSixOnePalette = {
-    light: {
-        ink: "#0A0A0A",
-        inkSoft: "#5A5A5A",
-        surface: "#F2EAD8",
-        surfaceDeep: "#E6DCC4",
-        surfaceEdge: "#D8CDB2",
-        rule: "#D8CDB2",
-        accent: "#3D5588",
-        alarm: "#FF4530",
-        sans: `"Space Grotesk", "Helvetica Neue", Arial, sans-serif`,
-        serif: `"Roboto Slab", Rockwell, Georgia, serif`,
-        mono: `"JetBrains Mono", ui-monospace, "Courier New", monospace`,
-        gutter: "56px",
-        max: "1200px",
-        measure: "42rem",
-        radius: "0",
-    },
-};
 // Chrome unique to the 561 identity. The reset, token block, headings, and the
 // content-component library all come from web-theming's shared layers; only the
 // folio/hero/colophon furniture lives here.
@@ -122,7 +104,7 @@ footer[role=contentinfo] {
   line-height: 1.4;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(242, 234, 216, .6);
+  color: color-mix(in oklab, var(--surface) 60%, transparent);
 }
 
 .colophon a { color: var(--surface); text-decoration: none; }
@@ -143,10 +125,25 @@ footer[role=contentinfo] {
   .folio-bar, .hero-desc, .colophon { color: #333; }
 }
 `;
-const CSS = assembleCss(fiveSixOnePalette, CHROME_CSS);
-export const fiveSixOneTheme = {
+/** The 561 identity as a web-theming spec — seeds in, light+dark palette out. */
+export const fiveSixOneSpec = {
     name: "five-six-one",
-    css: CSS,
+    seeds: {
+        ink: "#0A0A0A",
+        surface: "#F2EAD8",
+        accent: "#3D5588",
+        alarm: "#FF4530",
+    },
+    type: {
+        sans: `"Space Grotesk", "Helvetica Neue", Arial, sans-serif`,
+        serif: `"Roboto Slab", Rockwell, Georgia, serif`,
+        mono: `"JetBrains Mono", ui-monospace, "Courier New", monospace`,
+        gutter: "56px",
+        max: "1200px",
+        measure: "42rem",
+        radius: "0",
+    },
+    chrome: CHROME_CSS,
     head(_ctx) {
         return `<link rel="alternate" type="application/json" href="/site.json">`;
     },
@@ -176,4 +173,9 @@ export const fiveSixOneTheme = {
         return articleHtml;
     },
 };
+const decoded = decodeTheme(fiveSixOneSpec);
+/** The 561 Group theme: light+dark palette derived from the seeds, plus chrome. */
+export const fiveSixOneTheme = decoded;
+/** The derived light+dark palette, for surfaces that compose it directly. */
+export const fiveSixOnePalette = decoded.palette;
 //# sourceMappingURL=index.mjs.map
