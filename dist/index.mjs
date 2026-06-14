@@ -1,37 +1,42 @@
-import { escapeHtml } from "@561-group/web-theming";
-// Fonts: Space Grotesk (sans), Roboto Slab (slab), JetBrains Mono (mono) are the
-// bible-specified families. No CDN requests (§ 09.7 no-third-party-on-web). Self-hosting
-// these three families is recorded in dev/TODO/561-group-web-theme-fonts.md; until that
-// work ships, the fallback stacks below are the operative fonts.
-const CSS = `
-:root {
-  --ink:        #0A0A0A;
-  --ink-soft:   #5A5A5A;
-  --bone:       #F2EAD8;
-  --bone-deep:  #E6DCC4;
-  --bone-edge:  #D8CDB2;
-  --alarm:      #FF4530;
-  --witness:    #3D5588;
-
-  --sans: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --slab: "Roboto Slab", Rockwell, Georgia, serif;
-  --mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
-
-  --gutter: 56px;
-  --max: 1200px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+import { assembleCss, escapeHtml, } from "@561-group/web-theming";
+// The 561 Group visual identity, expressed on the shared web-theming system: a
+// palette as data (so dark/brand variations and the component library compose),
+// plus the chrome unique to this identity (folio bar, the giant "561" hero mark,
+// the inked colophon). Bone ground, ink marks, one warm red and one witness blue
+// — the Bauhaus/Brutalist register: scarce salience, hard hierarchy, type as mass.
+//
+// Fonts: Space Grotesk (sans), Roboto Slab (serif/slab), JetBrains Mono (mono)
+// are the bible-specified families. No CDN requests (§ 09.7 no-third-party-on-web);
+// self-hosting these three is recorded in dev/TODO/561-group-web-theme-fonts.md.
+// Until that ships, the fallback stacks below are operative.
+export const fiveSixOnePalette = {
+    light: {
+        ink: "#0A0A0A",
+        inkSoft: "#5A5A5A",
+        surface: "#F2EAD8",
+        surfaceDeep: "#E6DCC4",
+        surfaceEdge: "#D8CDB2",
+        rule: "#D8CDB2",
+        accent: "#3D5588",
+        alarm: "#FF4530",
+        sans: `"Space Grotesk", "Helvetica Neue", Arial, sans-serif`,
+        serif: `"Roboto Slab", Rockwell, Georgia, serif`,
+        mono: `"JetBrains Mono", ui-monospace, "Courier New", monospace`,
+        gutter: "56px",
+        max: "1200px",
+        measure: "42rem",
+        radius: "0",
+    },
+};
+// Chrome unique to the 561 identity. The reset, token block, headings, and the
+// content-component library all come from web-theming's shared layers; only the
+// folio/hero/colophon furniture lives here.
+const CHROME_CSS = `
 html, body {
-  background: var(--bone);
-  color: var(--ink);
-  font-family: var(--slab);
+  background: var(--surface);
+  font-family: var(--serif);
   font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
 }
-
 body {
   background-image: radial-gradient(rgba(10,10,10,.035) 1px, transparent 1px);
   background-size: 4px 4px;
@@ -97,19 +102,12 @@ main[role=main] {
   padding: 60px var(--gutter);
 }
 
-.lede {
-  font-family: var(--slab);
-  font-size: 22px;
-  line-height: 1.4;
-  max-width: 36rem;
-}
-
 /* ── Footer colophon ─────────────────────────────────────────────────────── */
 
 footer[role=contentinfo] {
   border-top: 8px solid var(--ink);
   background: var(--ink);
-  color: var(--bone);
+  color: var(--surface);
 }
 
 .colophon {
@@ -127,7 +125,7 @@ footer[role=contentinfo] {
   color: rgba(242, 234, 216, .6);
 }
 
-.colophon a { color: var(--bone); text-decoration: none; }
+.colophon a { color: var(--surface); text-decoration: none; }
 .colophon a:hover { color: var(--alarm); }
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
@@ -145,6 +143,7 @@ footer[role=contentinfo] {
   .folio-bar, .hero-desc, .colophon { color: #333; }
 }
 `;
+const CSS = assembleCss(fiveSixOnePalette, CHROME_CSS);
 export const fiveSixOneTheme = {
     name: "five-six-one",
     css: CSS,
@@ -166,7 +165,7 @@ export const fiveSixOneTheme = {
     },
     footer(ctx) {
         const year = escapeHtml(String(ctx.year ?? ""));
-        const credit = year ? `${year} · The 561 Group` : "The 561 Group";
+        const credit = year ? `${year} · The 561 Group` : "The 561 Group";
         return [
             '<div class="colophon">',
             `<span>${credit}</span>`,
