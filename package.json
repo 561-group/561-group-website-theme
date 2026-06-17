@@ -7,12 +7,13 @@
   "scripts": {
     "clean": "rm -rf dist .tmp/test-dist",
     "check": "tsc --noEmit",
-    "build": "pnpm run clean && tsc -p tsconfig.build.json && node ../../scripts/package-boundary/copy-dmts-to-dts.mjs dist",
-    "verify": "pnpm run check",
-    "prepack": "pnpm run build"
+    "build": "tsc -p tsconfig.build.json",
+    "verify": "pnpm run check && pnpm run build",
+    "prepack": "pnpm run rebuild",
+    "rebuild": "pnpm run clean && pnpm run build"
   },
   "main": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist",
     "README.md",
@@ -20,13 +21,13 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@emsenn/web": "workspace:*"
+    "@emsenn/computing-with-the-web": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
