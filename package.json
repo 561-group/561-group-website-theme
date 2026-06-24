@@ -26,7 +26,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@emsenn/computing-with-the-web": "workspace:*"
+    "@emsenn/organizing-with-the-web": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

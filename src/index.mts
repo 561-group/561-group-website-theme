@@ -5,7 +5,7 @@ import {
   type ThemeSpec,
   decodeTheme,
   escapeHtml,
-} from "@emsenn/computing-with-the-web/theming";
+} from "@emsenn/organizing-with-the-web/theming";
 
 // The 561 Group visual identity as a thin spec on the shared web-theming system:
 // a handful of colour seeds + type tokens, from which web-theming derives the full
