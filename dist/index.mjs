@@ -1,4 +1,4 @@
-import { decodeTheme, escapeHtml, } from "@emsenn/computing-with-the-web/theming";
+import { decodeTheme, escapeHtml, } from "@emsenn/organizing-with-the-web/theming";
 // The 561 Group visual identity as a thin spec on the shared web-theming system:
 // a handful of colour seeds + type tokens, from which web-theming derives the full
 // light AND dark palettes (OKLCH; WCAG-certified), plus the chrome unique to this
