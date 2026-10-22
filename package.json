@@ -32,5 +32,14 @@
     "@types/node": "^22.0.0",
     "typescript": "^5.8.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "license": "LicenseRef-561Group-1.0",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/561-group/561-group-website-theme.git"
+  }
 }
